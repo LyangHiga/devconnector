@@ -1,5 +1,9 @@
 const express = require('express');
 const connectDB = require('./config/db');
+const authRouter = require('./routes/api/auth');
+const postsRouter = require('./routes/api/posts');
+const profileRouter = require('./routes/api/profile');
+const usersRouter = require('./routes/api/users');
 
 const app = express();
 
@@ -7,6 +11,12 @@ const app = express();
 connectDB();
 
 app.get('/', (req, res) => res.send('API Running'));
+
+// Routes
+app.use('/api/auth', authRouter);
+app.use('/api/posts', postsRouter);
+app.use('/api/profile', profileRouter);
+app.use('/api/users', usersRouter);
 
 const PORT = process.env.PORT || 5000;
 
