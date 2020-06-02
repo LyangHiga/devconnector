@@ -10,6 +10,9 @@ const app = express();
 // connecting DB
 connectDB();
 
+// body parser middleware
+app.use(express.json({ extended: false }));
+
 app.get('/', (req, res) => res.send('API Running'));
 
 // Routes
