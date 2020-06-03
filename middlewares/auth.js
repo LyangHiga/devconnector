@@ -14,7 +14,6 @@ module.exports = function (req, res, next) {
     const decoded = jwt.verify(token, config.get('jwtSecret'));
     // set user in req, so we can use in any protect route
     req.user = decoded.user;
-    console.log(req.user);
     next();
   } catch (err) {
     res.status(401).json({ msg: 'Invalid Token' });
