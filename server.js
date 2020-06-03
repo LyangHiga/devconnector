@@ -11,7 +11,11 @@ const app = express();
 connectDB();
 
 // body parser middleware
-app.use(express.json({ extended: false }));
+app.use(
+  express.json({
+    extended: false,
+  })
+);
 
 app.get('/', (req, res) => res.send('API Running'));
 
