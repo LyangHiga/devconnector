@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 // why dont embedded in user, instead of child referencing?
 // 1 profile to 1 user
+// https://stackoverflow.com/questions/3395853/why-is-separation-of-user-and-profile-data-considered-good
 
 const ProfileSchema = new mongoose.Schema({
   user: {
