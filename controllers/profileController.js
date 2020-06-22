@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
 
 const Profile = require('../models/Profile');
-const { json } = require('express');
+const User = require('../models/User');
 
 exports.getCurrentProfile = async (req, res) => {
   try {
@@ -16,6 +16,19 @@ exports.getCurrentProfile = async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
+  }
+};
+
+exports.deleteCurrentProfile = async (req, res) => {
+  try {
+    //   @todo Remove users post
+    await Profile.findOneAndRemove({ user: req.user.id });
+    await User.findOneAndRemove({ _id: req.user.id });
+
+    res.json({ msg: 'User deleted' });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send('Server Error');
   }
 };
 
@@ -65,7 +78,7 @@ exports.createOrUpdateProfile = async (req, res) => {
     let profile = await Profile.findOneAndUpdate(
       { user: req.user.id },
       { $set: profileFields },
-      { new: true, upsert: true, useFindAndModify: false }
+      { new: true, upsert: true }
     );
     res.json(profile);
   } catch (err) {

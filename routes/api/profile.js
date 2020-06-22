@@ -3,6 +3,7 @@ const { check } = require('express-validator');
 const { auth } = require('../../controllers/authController');
 const {
   getCurrentProfile,
+  deleteCurrentProfile,
   createOrUpdateProfile,
   getAllProfiles,
   getProfileByUserId,
@@ -32,7 +33,11 @@ router
   // @route   GET api/profile
   // @desc    Get all profiles
   // access   Public
-  .get(getAllProfiles);
+  .get(getAllProfiles)
+  // @route   Delete api/profile
+  // @desc    Delete Current Profile, User and Posts
+  // access   Private
+  .delete(auth, deleteCurrentProfile);
 
 // @route   GET api/profile/user/:userId
 // @desc    Get a profile by id
