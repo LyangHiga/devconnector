@@ -5,6 +5,7 @@ const {
   getCurrentProfile,
   createOrUpdateProfile,
   getAllProfiles,
+  getProfileByUserId,
 } = require('../../controllers/profileController');
 const router = express.Router();
 
@@ -32,5 +33,10 @@ router
   // @desc    Get all profiles
   // access   Public
   .get(getAllProfiles);
+
+// @route   GET api/profile/user/:userId
+// @desc    Get a profile by id
+// access   Public
+router.route('/user/:userId').get(getProfileByUserId);
 
 module.exports = router;

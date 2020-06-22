@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 
 const Profile = require('../models/Profile');
+const { json } = require('express');
 
 exports.getCurrentProfile = async (req, res) => {
   try {
@@ -79,6 +80,25 @@ exports.getAllProfiles = async (req, res) => {
     return res.json(profiles);
   } catch (err) {
     console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+};
+
+exports.getProfileByUserId = async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      user: req.params.userId,
+    }).populate('user', ['name', 'avatar']);
+    console.log(req.params.userId);
+    if (!profile) {
+      return res.status(400).json({ msg: 'Profile not found' });
+    }
+    return res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === 'ObjectId') {
+      return res.status(400).json({ msg: 'Profile not found' });
+    }
     res.status(500).send('Server Error');
   }
 };
