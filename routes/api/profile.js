@@ -4,6 +4,7 @@ const { auth } = require('../../controllers/authController');
 const {
   getCurrentProfile,
   createOrUpdateProfile,
+  getAllProfiles,
 } = require('../../controllers/profileController');
 const router = express.Router();
 
@@ -26,6 +27,10 @@ router
       check('skills', 'Skills is required').not().isEmpty(),
     ],
     createOrUpdateProfile
-  );
+  )
+  // @route   GET api/profile
+  // @desc    Get all profiles
+  // access   Public
+  .get(getAllProfiles);
 
 module.exports = router;
