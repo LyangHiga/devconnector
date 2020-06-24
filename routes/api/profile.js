@@ -7,6 +7,7 @@ const {
   createOrUpdateProfile,
   getAllProfiles,
   getProfileByUserId,
+  createProfileExperience,
 } = require('../../controllers/profileController');
 const router = express.Router();
 
@@ -39,9 +40,29 @@ router
   // access   Private
   .delete(auth, deleteCurrentProfile);
 
-// @route   GET api/profile/user/:userId
-// @desc    Get a profile by id
-// access   Public
-router.route('/user/:userId').get(getProfileByUserId);
+router
+  .route('/user/:userId')
+  // @route   GET api/profile/user/:userId
+  // @desc    Get a profile by id
+  // access   Public
+  .get(getProfileByUserId);
+
+router
+  .route('/experience')
+  // @route    PUT api/profile/experience
+  // @desc     Add profile experience
+  // @access   Private
+  .put(
+    auth,
+    [
+      check('title', 'Title is required').not().isEmpty(),
+      check('company', 'Company is required').not().isEmpty(),
+      check('from', 'From date is required and needs to be from the past')
+        .not()
+        .isEmpty()
+        .custom((value, { req }) => (req.body.to ? value < req.body.to : true)),
+    ],
+    createProfileExperience
+  );
 
 module.exports = router;
