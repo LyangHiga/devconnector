@@ -8,6 +8,7 @@ const {
   getAllProfiles,
   getProfileByUserId,
   createProfileExperience,
+  deleteProfileExperience,
 } = require('../../controllers/profileController');
 const router = express.Router();
 
@@ -65,4 +66,10 @@ router
     createProfileExperience
   );
 
+router
+  .route('/experience/:experienceId')
+  // @route    DELETE api/profile/experience/experienceId
+  // @desc     Delete profile experience by its id
+  // @access   Private
+  .delete(auth, deleteProfileExperience);
 module.exports = router;

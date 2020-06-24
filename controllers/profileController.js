@@ -132,3 +132,17 @@ exports.createProfileExperience = async (req, res) => {
     return res.status(500).send('Server Error');
   }
 };
+
+exports.deleteProfileExperience = async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+    profile.experience = profile.experience.filter(
+      (exp) => exp._id.toString() !== req.params.experienceId
+    );
+    await profile.save();
+    return res.status(200).json(profile);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send('Server Error');
+  }
+};
