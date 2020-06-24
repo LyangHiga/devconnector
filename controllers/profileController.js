@@ -163,3 +163,17 @@ exports.createProfileEducation = async (req, res) => {
     return res.status(500).send('Server Error');
   }
 };
+
+exports.deleteProfileEducation = async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+    profile.education = profile.education.filter(
+      (edu) => edu._id.toString() !== req.params.educationId
+    );
+    await profile.save();
+    return res.status(200).json(profile);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send('Server Error');
+  }
+};

@@ -10,6 +10,7 @@ const {
   createProfileExperience,
   deleteProfileExperience,
   createProfileEducation,
+  deleteProfileEducation,
 } = require('../../controllers/profileController');
 const router = express.Router();
 
@@ -92,5 +93,12 @@ router
     ],
     createProfileEducation
   );
+
+router
+  .route('/education/:educationId')
+  // @route    DELETE api/profile/education/:edu_id
+  // @desc     Delete education from profile
+  // @access   Private
+  .delete(auth, deleteProfileEducation);
 
 module.exports = router;
