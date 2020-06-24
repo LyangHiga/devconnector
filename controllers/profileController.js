@@ -146,3 +146,20 @@ exports.deleteProfileExperience = async (req, res) => {
     return res.status(500).send('Server Error');
   }
 };
+
+exports.createProfileEducation = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+    profile.education.unshift(req.body);
+    await profile.save();
+    return res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send('Server Error');
+  }
+};
