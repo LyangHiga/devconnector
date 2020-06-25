@@ -34,3 +34,20 @@ exports.getAllPosts = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+
+exports.getPostbyId = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) {
+      return res.status(404).json({ msg: 'Post not found' });
+    }
+
+    return res.json(post);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Post not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+};
