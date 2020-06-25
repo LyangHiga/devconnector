@@ -7,6 +7,7 @@ const {
   createPost,
   getAllPosts,
   getPostbyId,
+  deletePost,
 } = require('../../controllers/postController');
 
 router
@@ -25,6 +26,10 @@ router
   // @route    GET api/posts/:id
   // @desc     Get post by ID
   // @access   Private
-  .get(auth, getPostbyId);
+  .get(auth, getPostbyId)
+  // @route    DELETE api/posts/:id
+  // @desc     Delete a post
+  // @access   Private
+  .delete(auth, deletePost);
 
 module.exports = router;
