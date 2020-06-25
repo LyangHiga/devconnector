@@ -8,6 +8,7 @@ const {
   getAllPosts,
   getPostbyId,
   deletePost,
+  likePost,
 } = require('../../controllers/postController');
 
 router
@@ -31,5 +32,12 @@ router
   // @desc     Delete a post
   // @access   Private
   .delete(auth, deletePost);
+
+router
+  .route('/like/:id')
+  // @route    PUT api/posts/like/:id
+  // @desc     Like a post
+  // @access   Private
+  .put(auth, likePost);
 
 module.exports = router;
