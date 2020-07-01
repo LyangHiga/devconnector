@@ -13,8 +13,8 @@ const App = () => (
       <Route exact path='/' render={Landing} />
       <section className='container'>
         <Switch>
-          <Route exact path='/login' render={Login} />
-          <Route exact path='/register' render={Register} />
+          <Route exact path='/register' component={Register} />
+          <Route exact path='/login' component={Login} />
         </Switch>
       </section>
     </div>
