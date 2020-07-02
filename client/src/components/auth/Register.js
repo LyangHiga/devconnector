@@ -1,8 +1,9 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import useFormState from '../../hooks/useFormState';
 
 const Register = () => {
-  const [formData, setFormData] = useState({
+  const [formData, handleChange, resetForm] = useFormState({
     name: '',
     email: '',
     password: '',
@@ -11,10 +12,6 @@ const Register = () => {
 
   const { name, email, password, password2 } = formData;
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password !== password2) {
@@ -22,6 +19,7 @@ const Register = () => {
     } else {
       console.log(formData);
     }
+    resetForm();
   };
 
   return (

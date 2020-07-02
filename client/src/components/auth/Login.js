@@ -1,21 +1,19 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import useFormState from '../../hooks/useFormState';
 
 const Login = () => {
-  const [formData, setFormData] = useState({
+  const [formData, handleChange, resetForm] = useFormState({
     email: '',
     password: '',
   });
 
   const { email, password } = formData;
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Success');
+    resetForm();
   };
   return (
     <Fragment>
