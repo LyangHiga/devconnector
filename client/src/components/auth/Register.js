@@ -1,8 +1,12 @@
 import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import useFormState from '../../hooks/useFormState';
+import { setAlert } from '../../actions/alert';
 
-const Register = () => {
+const Register = (props) => {
+  const { setAlert } = props;
   const [formData, handleChange, resetForm] = useFormState({
     name: '',
     email: '',
@@ -15,7 +19,8 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password !== password2) {
-      console.log('Passwords dont match');
+      // setAlert(msg,alertType)
+      setAlert('Passwords do not match', 'danger');
     } else {
       console.log(formData);
     }
@@ -84,4 +89,17 @@ const Register = () => {
   );
 };
 
-export default Register;
+Register.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+};
+
+// The connect() function connects a React component to a Redux store.
+
+// It provides its connected component with the pieces of the data it needs from the store,
+// and the functions it can use to dispatch actions to the store.
+
+// function connect(mapStateToProps?, mapDispatchToProps?, mergeProps?, options?)
+
+// The mapStateToProps and mapDispatchToProps deals with your Redux store’s state and dispatch, respectively.
+// we get setAlert as a prop
+export default connect(null, { setAlert })(Register);
