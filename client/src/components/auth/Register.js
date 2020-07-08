@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useFormState from '../../hooks/useFormState';
 import { setAlert } from '../../actions/alert';
+import { register } from '../../actions/auth';
 
 const Register = (props) => {
-  const { setAlert } = props;
+  const { setAlert, register } = props;
   const [formData, handleChange, resetForm] = useFormState({
     name: '',
     email: '',
@@ -16,13 +17,13 @@ const Register = (props) => {
 
   const { name, email, password, password2 } = formData;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
       // setAlert(msg,alertType)
       setAlert('Passwords do not match', 'danger');
     } else {
-      console.log(formData);
+      register({ name, email, password });
     }
     resetForm();
   };
@@ -66,7 +67,6 @@ const Register = (props) => {
             value={password}
             onChange={handleChange}
             minLength='6'
-            required
           />
         </div>
         <div className='form-group'>
@@ -77,7 +77,6 @@ const Register = (props) => {
             value={password2}
             onChange={handleChange}
             minLength='6'
-            required
           />
         </div>
         <input type='submit' className='btn btn-primary' value='Register' />
@@ -91,6 +90,7 @@ const Register = (props) => {
 
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
 };
 
 // The connect() function connects a React component to a Redux store.
@@ -102,4 +102,4 @@ Register.propTypes = {
 
 // The mapStateToProps and mapDispatchToProps deals with your Redux store’s state and dispatch, respectively.
 // we get setAlert as a prop
-export default connect(null, { setAlert })(Register);
+export default connect(null, { setAlert, register })(Register);
