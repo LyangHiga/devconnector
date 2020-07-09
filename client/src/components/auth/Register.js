@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useFormState from '../../hooks/useFormState';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
 
 const Register = (props) => {
-  const { setAlert, register } = props;
+  const { setAlert, register, isAuthenticated } = props;
   const [formData, handleChange, resetForm] = useFormState({
     name: '',
     email: '',
@@ -27,6 +27,11 @@ const Register = (props) => {
     }
     resetForm();
   };
+
+  //   redirect if user is already authenticated
+  if (isAuthenticated) {
+    return <Redirect to='/dashboard' />;
+  }
 
   return (
     <Fragment>
@@ -91,7 +96,13 @@ const Register = (props) => {
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
+
+// to pass state.isAuthenticated as prop to this component
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
 
 // The connect() function connects a React component to a Redux store.
 
@@ -102,4 +113,4 @@ Register.propTypes = {
 
 // The mapStateToProps and mapDispatchToProps deals with your Redux store’s state and dispatch, respectively.
 // we get setAlert as a prop
-export default connect(null, { setAlert, register })(Register);
+export default connect(mapStateToProps, { setAlert, register })(Register);
