@@ -9,9 +9,11 @@ exports.getCurrentProfile = async (req, res) => {
       user: req.user.id,
     }).populate('user', ['name', 'avatar']);
 
+    // status 400 for bad request
     if (!profile) {
-      return res.json({ msg: 'There is no Profile for this User' });
+      return res.status(400).json({ msg: 'There is no profile for this user' });
     }
+
     return res.json(profile);
   } catch (err) {
     console.error(err.message);
