@@ -1,10 +1,13 @@
 import React, { Fragment } from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import useFormState from '../../hooks/useFormState';
 import useToggleState from '../../hooks/useToggleState';
+import { createProfile } from '../../actions/profile';
 
 const CreateProfile = (props) => {
+  const { history, createProfile } = props;
   const [displaySocialInputs, toggleSocialInputs] = useToggleState(false);
   const [formData, handleChange, resetForm] = useFormState({
     company: '',
@@ -33,6 +36,12 @@ const CreateProfile = (props) => {
     youtube,
     instagram,
   } = formData;
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    createProfile(formData, history);
+  };
+
   return (
     <Fragment>
       <h1 className='large text-primary'>Create Your Profile</h1>
@@ -41,7 +50,7 @@ const CreateProfile = (props) => {
         profile stand out
       </p>
       <small>* = required field</small>
-      <form className='form'>
+      <form className='form' onSubmit={(e) => onSubmit(e)}>
         <div className='form-group'>
           <select name='status' value={status} onChange={handleChange}>
             <option value='0'>* Select Professional Status</option>
@@ -195,6 +204,8 @@ const CreateProfile = (props) => {
   );
 };
 
-CreateProfile.propTypes = {};
+CreateProfile.propTypes = {
+  createProfile: PropTypes.func.isRequired,
+};
 
-export default CreateProfile;
+export default connect(null, { createProfile })(withRouter(CreateProfile));
