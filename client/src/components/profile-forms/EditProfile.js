@@ -1,15 +1,20 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import useFormState from '../../hooks/useFormState';
 import useToggleState from '../../hooks/useToggleState';
-import { createProfile } from '../../actions/profile';
+import { createProfile, getCurrentProfile } from '../../actions/profile';
 
-const CreateProfile = (props) => {
-  const { history, createProfile } = props;
+const EditProfile = (props) => {
+  const {
+    history,
+    createProfile,
+    getCurrentProfile,
+    profile: { profile, loading },
+  } = props;
   const [displaySocialInputs, toggleSocialInputs] = useToggleState(false);
-  const [formData, handleChange, resetForm] = useFormState({
+  const [formData, handleChange, resetForm, prefill] = useFormState({
     company: '',
     website: '',
     location: '',
@@ -22,6 +27,20 @@ const CreateProfile = (props) => {
     youtube: '',
     instagram: '',
   });
+
+  useEffect(() => {
+    getCurrentProfile();
+    const { twitter, facebook, linkedin, youtube, instagram } = profile.social;
+    const prefillData = {
+      ...profile,
+      twitter,
+      facebook,
+      linkedin,
+      youtube,
+      instagram,
+    };
+    prefill(prefillData);
+  }, [loading]);
 
   const {
     company,
@@ -39,7 +58,7 @@ const CreateProfile = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createProfile(formData, history);
+    createProfile(formData, history, true);
   };
 
   return (
@@ -204,8 +223,16 @@ const CreateProfile = (props) => {
   );
 };
 
-CreateProfile.propTypes = {
+EditProfile.propTypes = {
   createProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
-export default connect(null, { createProfile })(withRouter(CreateProfile));
+const mapStateToProps = (state) => ({
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
+  withRouter(EditProfile)
+);
