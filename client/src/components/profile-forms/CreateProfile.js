@@ -9,7 +9,7 @@ import { createProfile } from '../../actions/profile';
 const CreateProfile = (props) => {
   const { history, createProfile } = props;
   const [displaySocialInputs, toggleSocialInputs] = useToggleState(false);
-  const [formData, handleChange, resetForm] = useFormState({
+  const { formData, handleChange } = useFormState({
     company: '',
     website: '',
     location: '',

@@ -7,7 +7,7 @@ import { login } from '../../actions/auth';
 
 const Login = (props) => {
   const { login, isAuthenticated } = props;
-  const [formData, handleChange, resetForm] = useFormState({
+  const { formData, handleChange, resetForm } = useFormState({
     email: '',
     password: '',
   });

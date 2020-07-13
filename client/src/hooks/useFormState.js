@@ -1,14 +1,22 @@
 import { useState } from 'react';
 
 const useFormState = (initVal) => {
-  const [form, setForm] = useState(initVal);
+  const [formData, setForm] = useState(initVal);
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({ ...formData, [e.target.name]: e.target.value });
   };
-  const reset = () => {
+  const handleChangeCheckbox = (e) => {
+    setForm({
+      ...formData,
+      [e.target.name]: e.target.checked,
+    });
+  };
+  const resetForm = () => {
     //  ES 7/2016: Object.entries(): Returns [key,val] from any Object
     // ES 10/2019: The Object.fromEntries() method transforms a list of key-value pairs into an object.
-    setForm(Object.fromEntries(Object.entries(form).map(([key]) => [key, ''])));
+    setForm(
+      Object.fromEntries(Object.entries(formData).map(([key]) => [key, '']))
+    );
   };
   const prefill = (prefillData) => {
     setForm(
@@ -17,7 +25,7 @@ const useFormState = (initVal) => {
       )
     );
   };
-  return [form, handleChange, reset, prefill];
+  return { formData, handleChange, resetForm, prefill, handleChangeCheckbox };
 };
 
 export default useFormState;

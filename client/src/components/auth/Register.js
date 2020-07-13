@@ -8,7 +8,7 @@ import { register } from '../../actions/auth';
 
 const Register = (props) => {
   const { setAlert, register, isAuthenticated } = props;
-  const [formData, handleChange, resetForm] = useFormState({
+  const { formData, handleChange, resetForm } = useFormState({
     name: '',
     email: '',
     password: '',

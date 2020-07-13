@@ -14,7 +14,7 @@ const EditProfile = (props) => {
     profile: { profile, loading },
   } = props;
   const [displaySocialInputs, toggleSocialInputs] = useToggleState(false);
-  const [formData, handleChange, resetForm, prefill] = useFormState({
+  const { formData, handleChange, prefill } = useFormState({
     company: '',
     website: '',
     location: '',
