@@ -80,7 +80,7 @@ const AddEducation = (props) => {
               value={current}
               onChange={handleChangeCheckbox}
             />{' '}
-            Current Job
+            Current Education
           </p>
         </div>
         <div className='form-group'>
