@@ -4,6 +4,7 @@ const normalize = require('normalize-url');
 
 const Profile = require('../models/Profile');
 const User = require('../models/User');
+const Post = require('../models/Post');
 
 exports.getCurrentProfile = async (req, res) => {
   try {
@@ -25,7 +26,7 @@ exports.getCurrentProfile = async (req, res) => {
 
 exports.deleteCurrentProfile = async (req, res) => {
   try {
-    //   @todo Remove users post
+    await Post.deleteMany({ user: req.user.id });
     await Profile.findOneAndRemove({ user: req.user.id });
     await User.findOneAndRemove({ _id: req.user.id });
 
