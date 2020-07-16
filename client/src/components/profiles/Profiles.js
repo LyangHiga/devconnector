@@ -12,7 +12,7 @@ const Profiles = (props) => {
   } = props;
   useEffect(() => {
     getProfiles();
-  }, []);
+  }, [getProfiles]);
   return (
     <Fragment>
       {loading ? (
