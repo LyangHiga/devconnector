@@ -5,6 +5,7 @@ import {
   DELETE_POST,
   ADD_POST,
   GET_POST,
+  ADD_COMMENT,
 } from '../actions/types';
 
 const initialState = {
@@ -53,6 +54,12 @@ export default function post(state = initialState, action) {
       return {
         ...state,
         post: payload,
+        loading: false,
+      };
+    case ADD_COMMENT:
+      return {
+        ...state,
+        post: { ...state.post, payload },
         loading: false,
       };
     default:
